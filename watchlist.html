@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies - Curators Cut</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: rgb(33, 31, 33);
+            overflow-x: hidden;
+            color: white;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+        }
+        .header {
+            background-color: rgb(33, 31, 33);
+            padding: 10px;
+            width: 100%;
+            color: aliceblue;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .nav_links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav_links a {
+            color: aliceblue;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .search_bar input {
+            padding: 5px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            color: white;
+            background-color: black;
+        }
+        .profile-container img {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            background: rgb(33, 31, 33);
+            border: 1px solid gray;
+            border-radius: 10px;
+            width: 150px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            text-align: left;
+        }
+        .dropdown a {
+            display: block;
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+        }
+        .dropdown a:hover {
+            background-color: #555;
+        }
+        .logo img {
+            height: 40px;
+            border-radius: 10px;
+        }
+        
+        body::-webkit-scrollbar {
+            width: 10px;
+            transition: width 0.3s ease-in-out;
+        }
+        body::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 10px;
+        }
+        body::-webkit-scrollbar-thumb:active {
+            background: #333;
+        }
+
+        .moviecontainer {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            justify-content: center;
+            padding: 20px;
+        }
+        .moviecontainer img {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            border-radius: 10px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .moviecontainer img:hover {
+            transform: scale(1.05);
+            opacity: 0.8;
+        }
+        .genre-dropdown {
+            margin-top: 80px;
+        }
+        .genre-dropdown select {
+            width: 200px;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            background: #292929;
+            color: white;
+            border-radius: 5px;
+            border: none;
+        }
+        footer {
+            background-color: #111; 
+            color: #F5F5F5; 
+            padding: 40px 20px;
+            margin-top: 50px;
+            text-align: center;
+        }   
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            text-align: left;
+        }
+        .footer-section h3 {
+            color: #f39c12;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .footer-section p {
+            margin: 10px 0;
+            color: #ccc;
+        }
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin: 10px 0;
+            transition: color 0.3s ease;
+        }
+        .footer-section a:hover {
+            color: #f39c12;
+        }
+        .footer-bottom {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            text-align: center;
+        }
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .social-links a {
+            color: #ccc;
+            font-size: 20px;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: #f39c12;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="logo.jpg" alt="Logo">
+        </div>
+        <nav class="nav_links">
+            <a href="mainpage.html" id="homeLink">Home</a>
+            <a href="movie.html" id="movieLink">Movies</a>
+            <a href="tvshow.html" id="tvshowLink">TV Shows</a>
+            <a href="watchlist.html" id="watchlistLink">Watchlist</a>
+        </nav>
+        <div class="search_bar">
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="profile-container">
+            <img src="user.png" alt="userpic" onclick="toggleDropdown()">
+            <div class="dropdown" id="dropdownMenu">
+                <a href="profile-info.html" id="profileLink">Profile</a>
+                <a href="#">Settings</a>
+                <a href="login.html">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="genre-dropdown">
+        <select onchange="filterGenre(this.value)">
+            <option value="all">All Genres</option>
+            <option value="thriller">Thriller</option>
+            <option value="sci-fi">Sci-Fi</option>
+            <option value="action">Action</option>
+            <option value="drama">Drama</option>
+            <option value="crime">Crime</option>
+            <option value="romance">Romance</option>
+        </select>
+    </div>
+
+    <div class="moviecontainer" id="movies">
+        <a href="tvshow-details.html" class="drama"><img src="https://upload.wikimedia.org/wikipedia/en/2/25/Kota_Factory_2_poster.jpg" alt="Kota Factory"></a>
+        <a href="dangal.html" class="action"><img src="https://upload.wikimedia.org/wikipedia/en/9/99/Dangal_Poster.jpg" alt="Dangal"></a>
+        <a href="criminal_record.html" class="crime"><img src="https://upload.wikimedia.org/wikipedia/en/e/ea/Criminal_Record_poster.jpg" alt="Criminal Record"></a>
+        <a href="sacred_games.html" class="crime"><img src="https://upload.wikimedia.org/wikipedia/en/d/d6/Bodies_2023_TV_series.jpg" alt="Bodies"></a>
+        <a href="rrr.html" class="action"><img src="https://upload.wikimedia.org/wikipedia/en/d/d7/RRR_Poster.jpg" alt="RRR" class="hover-image"></a>
+        <a href="dhamaal.html" class="comedy"><img src="https://upload.wikimedia.org/wikipedia/en/6/60/Dhamaal_2007.jpg" alt="Dhamaal"></a>
+        <a href="the_family_man.html" class="action"><img src="https://upload.wikimedia.org/wikipedia/en/e/e9/Citadel_Amazon_TV_Show_Promotional_Poster_v2.jpg" alt="Citadel"></a>
+        <a href="special_ops.html" class="thriller"><img src="https://upload.wikimedia.org/wikipedia/en/8/83/Special_OPS_Poster.jpeg" alt="Special OPS"></a>
+        <a href="reacher.html" class="action"><img src="https://upload.wikimedia.org/wikipedia/en/1/19/Reacher_TV_poster.jpg" alt="Reacher"></a>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Curator's Cut</h3>
+                <p>Your ultimate destination for curated entertainment. We bring you the best movies and TV shows carefully selected by our expert curators.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#" id="footerHomeLink">Home</a>
+                <a href="#" id="footerMovieLink">Movies</a>
+                <a href="#" id="footerTvshowLink">TV Shows</a>
+                <a href="#" id="footerWatchlistLink">Watchlist</a>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <p>Follow us on social media for updates and recommendations.</p>
+                <div class="social-links">
+                    <a href="#" title="Facebook">📘</a>
+                    <a href="#" title="Twitter">📘</a>
+                    <a href="#" title="Instagram">📘</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Curator's Cut. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get("uid");
+            if (userId) {
+                document.getElementById("profileLink").href = `profile-info.html?uid=${userId}`;
+                document.getElementById("homeLink").href = `mainpage.html?uid=${userId}`;
+                document.getElementById("movieLink").href = `movie.html?uid=${userId}`;
+                document.getElementById("tvshowLink").href = `tvshow.html?uid=${userId}`;
+                document.getElementById("watchlistLink").href = `watchlist.html?uid=${userId}`;
+                document.getElementById("footerHomeLink").href = `mainpage.html?uid=${userId}`;
+                document.getElementById("footerMovieLink").href = `movie.html?uid=${userId}`;
+                document.getElementById("footerTvshowLink").href = `tvshow.html?uid=${userId}`;
+                document.getElementById("footerWatchlistLink").href = `watchlist.html?uid=${userId}`;
+            }
+        });
+
+        function toggleDropdown() {
+            var dropdown = document.getElementById("dropdownMenu");
+            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+        }
+        document.addEventListener("click", function(event) {
+            var profileContainer = document.querySelector(".profile-container");
+            if (!profileContainer.contains(event.target)) {
+                document.getElementById("dropdownMenu").style.display = "none";
+            }
+        });
+        function filterGenre(genre) {
+            var movies = document.querySelectorAll('.moviecontainer a');
+            movies.forEach(movie => {
+                if (genre === 'all' || movie.classList.contains(genre)) {
+                    movie.style.display = "block";
+                } 
+                else {
+                    movie.style.display = "none";
+                }
+            });
+        }
+        function filterGenre(genre) {
+            var movies = document.querySelectorAll('.moviecontainer a');
+            movies.forEach(movie => {
+                if (genre === 'all' || movie.classList.contains(genre)) {
+                    movie.style.display = "block";
+                } 
+                else {
+                    movie.style.display = "none";
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curators Cut - Login</title>
+    
+    <!-- Firebase CDN -->
+    <script type="module">
+        // Import Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA24ZRucNrGS0wJH4Wfxg5yVUr5SKHp4is",
+            authDomain: "webp-8ca97.firebaseapp.com",
+            projectId: "webp-8ca97",
+            storageBucket: "webp-8ca97.appspot.com",  // Fixed storage bucket
+            messagingSenderId: "266995007978",
+            appId: "1:266995007978:web:658ca0b1724fc17054b293",
+            measurementId: "G-54P1B9B6TD"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Login function
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById('loginForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const email = document.getElementById('userId').value;
+                const password = document.getElementById('password').value;
+
+                signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        alert('Login successful!');
+                        window.location.href = `mainpage.html?uid=${user.uid}`; // Redirect to mainpage with UID
+                    })
+                    .catch((error) => {
+                        alert("Error: " + error.message);
+                    });
+            });
+        });
+    </script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4a4a4a, #666666);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #d4af37;
+        }
+
+        .login-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            width: 340px;
+            text-align: center;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+            color: #d4af37;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #d0d0d0;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #777777;
+            border-radius: 5px;
+            background-color: #333333;
+            color: #d0d0d0;
+            box-sizing: border-box;
+        }
+
+        .login-btn {
+            background-color: #d4af37;
+            color: #222222;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .login-btn:hover {
+            background-color: #c29d2f;
+        }
+
+        .signup-link {
+            margin-top: 30px;
+            color: #d4af37;
+            text-decoration: none;
+        }
+
+        .signup-link:hover {
+            text-decoration: underline;
+        }
+        .logo {
+            width: 200px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .login-background {
+            background-image: linear-gradient(to right, rgb(0,0,0), #d4af37);
+            width: 430px;
+            height: 395px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            animation-name: spin;
+            animation-duration: 10s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-background">
+        <div class="login-container">
+            <alt="Curators Cut" class="logo"> 
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="userId">User ID</label>
+                    <input type="text" id="userId" name="userId" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+            <a href="signup.html" class="signup-link">Sign Up</a>
+        </div>
+    </div>
+</body>
+</html>
