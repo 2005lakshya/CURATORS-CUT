@@ -5,13 +5,13 @@ import './Login.css'; // Import the CSS file
 
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyA24ZRucNrGS0wJH4Wfxg5yVUr5SKHp4is",
-    authDomain: "webp-8ca97.firebaseapp.com",
-    projectId: "webp-8ca97",
-    storageBucket: "webp-8ca97.appspot.com",
-    messagingSenderId: "266995007978",
-    appId: "1:266995007978:web:658ca0b1724fc17054b293",
-    measurementId: "G-54P1B9B6TD"
+    apiKey: "",
+    authDomain: "",
+    projectId: "",
+    storageBucket: "",
+    messagingSenderId: "",
+    appId: "",
+    measurementId: ""
 };
 
 // Initialize Firebase
