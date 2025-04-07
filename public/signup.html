@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curators Cut - Sign Up</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA24ZRucNrGS0wJH4Wfxg5yVUr5SKHp4is",
+            authDomain: "webp-8ca97.firebaseapp.com",
+            projectId: "webp-8ca97",
+            storageBucket: "webp-8ca97.firebasestorage.app",
+            messagingSenderId: "266995007978",
+            appId: "1:266995007978:web:658ca0b1724fc17054b293",
+            measurementId: "G-54P1B9B6TD"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('signupForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const email = document.getElementById('signupEmail').value;
+                const password = document.getElementById('signupPassword').value;
+
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        alert('Signup successful!');
+                        window.location.href = `sidh.html?uid=${user.uid}`; // Redirect with UID
+                    })
+                    .catch((error) => {
+                        alert("Error: " + error.message);
+                    });
+            });
+        });
+    </script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4a4a4a, #666666);
+            margin: 0;
+            color: #d4af37;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            width: 340px;
+            text-align: center;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+            color: #d4af37;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #d0d0d0;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #777777;
+            border-radius: 5px;
+            background-color: #333333;
+            color: #d0d0d0;
+            box-sizing: border-box;
+        }
+
+        .login-btn {
+            background-color: #d4af37;
+            color: #222222;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .login-btn:hover {
+            background-color: #c29d2f;
+        }
+
+        .signup-link {
+            margin-top: 30px;
+            color: #d4af37;
+            text-decoration: none;
+        }
+
+        .signup-link:hover {
+            text-decoration: underline;
+        }
+
+        .login-background {
+            background-image: linear-gradient(to right, rgb(0,0,0), #d4af37);
+            width: 430px;
+            height: 395px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            animation-name: spin;
+            animation-duration: 10s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+
+        .fancy-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8em;
+            color: #d4af37;
+            text-align: center;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+            position: relative;
+            display: block;
+        }
+
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            padding: 40px 0;
+        }
+
+        footer {
+            background-color: #111; 
+            color: #F5F5F5; 
+            width: 100%;
+            text-align: center;
+            margin-top: auto;
+        }   
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            text-align: left;
+        }
+        .footer-section h3 {
+            color: #f39c12;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .footer-section p {
+            margin: 10px 0;
+            color: #ccc;
+        }
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin: 10px 0;
+            transition: color 0.3s ease;
+        }
+        .footer-section a:hover {
+            color: #f39c12;
+        }
+        .footer-bottom {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            text-align: center;
+        }
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .social-links a {
+            color: #ccc;
+            font-size: 20px;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: #f39c12;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <h1 class="fancy-title">Curators Cut</h1>
+        <div class="login-background">
+            <div class="login-container">
+                <h2>Sign Up</h2>
+                <form id="signupForm">
+                    <div class="input-group">
+                        <label for="signupEmail">Email:</label>
+                        <input type="email" id="signupEmail" name="userId" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="signupPassword">Password:</label>
+                        <input type="password" id="signupPassword" name="password" required>
+                    </div>
+                    <button type="submit" class="login-btn">Sign Up</button>
+                </form>
+                <a href="/" class="signup-link">Already have an account? Login</a>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <p>Follow us on social media for updates and recommendations.</p>
+                <div class="social-links">
+                    <a href="" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="" target="_blank"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>About Curator's Cut</h3>
+                <p>Your ultimate destination for curated entertainment. We bring you the best movies and TV shows carefully selected by our expert curators.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Curator's Cut. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

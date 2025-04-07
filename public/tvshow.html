@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <title>Movies - Curators Cut</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: rgb(33, 31, 33);
+            overflow-x: hidden;
+            color: white;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+        }
+        .header {
+            background-color: rgb(33, 31, 33);
+            padding: 10px;
+            width: 100%;
+            color: aliceblue;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .nav_links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav_links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+        .nav_links a:hover {
+            color: #f39c12;
+        }
+        .search_bar input {
+            padding: 5px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: black;
+        }
+        .profile-container img {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            background: rgb(33, 31, 33);
+            border: 1px solid gray;
+            border-radius: 10px;
+            width: 150px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            text-align: left;
+        }
+        .dropdown a {
+            display: block;
+            color: #ffffff;
+            padding: 10px;
+            text-decoration: none;
+        }
+        .dropdown a:hover {
+            color: #f39c12;
+        }
+        .logo img {
+            height: 40px;
+            border-radius: 10px;
+        }
+        
+        body::-webkit-scrollbar {
+            width: 10px;
+            transition: width 0.3s ease-in-out;
+        }
+        body::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 10px;
+        }
+        body::-webkit-scrollbar-thumb:active {
+            background: #333;
+        }
+
+        .moviecontainer {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            justify-content: center;
+            padding: 20px;
+        }
+        .moviecontainer img {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            border-radius: 10px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .moviecontainer img:hover {
+            transform: scale(1.05);
+            opacity: 0.8;
+        }
+        .genre-dropdown {
+            margin-top: 80px;
+        }
+        .genre-dropdown select {
+            width: 200px;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            background: #292929;
+            color: white;
+            border-radius: 5px;
+            border: none;
+        }
+        footer {
+            background-color: #111; 
+            color: #F5F5F5; 
+            padding: 40px 20px;
+            margin-top: 50px;
+            text-align: center;
+        }   
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            text-align: left;
+        }
+        .footer-section h3 {
+            color: #f39c12;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .footer-section p {
+            margin: 10px 0;
+            color: #ccc;
+        }
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin: 10px 0;
+            transition: color 0.3s ease;
+        }
+        .footer-section a:hover {
+            color: #f39c12;
+        }
+        .footer-bottom {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            text-align: center;
+        }
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .social-links a {
+            color: #ccc;
+            font-size: 20px;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: #f39c12;
+        }
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            z-index: -1;
+        }
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: float 5s infinite ease-in-out;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-50px) scale(1.2); }
+            100% { transform: translateY(0) scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation" id="backgroundAnimation"></div>
+    <header class="header">
+        <div class="logo">
+            <img src="/images/logo.jpg" alt="Logo">
+        </div>
+        <nav class="nav_links">
+            <a href="mainpage.html" id="homeLink">Home</a>
+            <a href="movie.html" id="movieLink">Movies</a>
+            <a href="tvshow.html" id="tvshowLink">TV Shows</a>
+            <a href="watchlist.html" id="watchlistLink">Watchlist</a>
+        </nav>
+        <div class="search_bar">
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="profile-container">
+            <img src="/images/user.png" alt="userpic" onclick="toggleDropdown()">
+            <div class="dropdown" id="dropdownMenu">
+                <a href="profile-info.html" id="profileLink">Profile</a>
+                <a href="#" onclick="handleLogout()">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="genre-dropdown">
+        <select onchange="filterGenre(this.value)">
+            <option value="all">All Genres</option>
+            <option value="thriller">Thriller</option>
+            <option value="sci-fi">Sci-Fi</option>
+            <option value="action">Action</option>
+            <option value="drama">Drama</option>
+            <option value="crime">Crime</option>
+            <option value="romance">Romance</option>
+        </select>
+    </div>
+
+    <div class="moviecontainer" id="movies">
+        <a href="tvshow-details.html" class="drama"><img src="https://upload.wikimedia.org/wikipedia/en/2/25/Kota_Factory_2_poster.jpg" alt="Kota Factory"></a>
+        <a href="sacred_games.html" class="crime"><img src="https://upload.wikimedia.org/wikipedia/en/d/d6/Bodies_2023_TV_series.jpg" alt="Bodies"></a>
+        <a href="the_family_man.html" class="action"><img src="https://upload.wikimedia.org/wikipedia/en/e/e9/Citadel_Amazon_TV_Show_Promotional_Poster_v2.jpg" alt="Citadel"></a>
+        <a href="special_ops.html" class="thriller"><img src="https://upload.wikimedia.org/wikipedia/en/8/83/Special_OPS_Poster.jpeg" alt="Special OPS"></a>
+        <a href="reacher.html" class="action"><img src="https://upload.wikimedia.org/wikipedia/en/1/19/Reacher_TV_poster.jpg" alt="Reacher"></a>
+        <a href="outer_range.html" class="sci-fi"><img src="https://upload.wikimedia.org/wikipedia/en/d/d3/Outer_Range_poster.jpg" alt="Outer Range"></a>
+        <a href="alice_in_borderland.html" class="sci-fi"><img src="https://upload.wikimedia.org/wikipedia/en/7/75/Alice_in_Borderland_poster.jpg" alt="Alice in Borderland"></a>
+        <a href="the_oa.html" class="sci-fi"><img src="https://upload.wikimedia.org/wikipedia/en/6/6d/The_OA.png" alt="The OA"></a>
+        <a href="flames.html" class="romance"><img src="https://upload.wikimedia.org/wikipedia/en/5/5d/Flames_poster.jpg" alt="Flames"></a>
+        <a href="indian_police_force.html" class="action"><img src="https://upload.wikimedia.org/wikipedia/en/3/33/Indian_Police_Force.jpg" alt="Indian Police Force"></a>
+        <a href="mumbai_diaries.html" class="drama"><img src="https://upload.wikimedia.org/wikipedia/en/a/a7/Mumbai_Diaries_26_11.jpg" alt="Mumbai Diaries 26/11"></a>
+        <a href="citadel_honey_bunny.html" class="thriller"><img src="https://upload.wikimedia.org/wikipedia/en/c/c2/Citadel-_Honey_Bunny.jpg" alt="Citadel: Honey Bunny"></a>
+        <a href="rocket_boys.html" class="drama"><img src="https://upload.wikimedia.org/wikipedia/en/8/89/Rocket_Boys_poster.jpg" alt="Rocket Boys"></a>
+        <a href="inside_edge.html" class="drama"><img src="https://upload.wikimedia.org/wikipedia/en/5/5c/Inside_Edge.jpeg" alt="Inside Edge"></a>
+        <a href="fall_of_house_of_usher.html" class="thriller"><img src="https://upload.wikimedia.org/wikipedia/en/4/4e/Netflix_Fall_of_House_of_Usher_series.png" alt="The Fall of the House of Usher"></a>
+        <a href="the_devils_hour.html" class="thriller"><img src="https://upload.wikimedia.org/wikipedia/en/0/04/The_Devils_Hour_poster.jpg" alt="The Devil's Hour"></a>
+        <a href="the_rig.html" class="sci-fi"><img src="https://upload.wikimedia.org/wikipedia/en/7/7d/The_Rig_TV_Series_title.jpeg" alt="The Rig"></a>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Curator's Cut</h3>
+                <p>Your ultimate destination for curated entertainment. We bring you the best movies and TV shows carefully selected by our expert curators.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="mainpage.html" id="footerHomeLink">Home</a>
+                <a href="movie.html" id="footerMovieLink">Movies</a>
+                <a href="tvshow.html" id="footerTvshowLink">TV Shows</a>
+                <a href="watchlist.html" id="footerWatchlistLink">Watchlist</a>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <p>Follow us on social media for updates and recommendations.</p>
+                <div class="social-links">
+                    <a href="" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="" target="_blank"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Curator's Cut. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function handleLogout() {
+            window.location.href = '/';
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get("uid");
+            if (userId) {
+                document.getElementById("profileLink").href = `profile-info.html?uid=${userId}`;
+                document.getElementById("homeLink").href = `mainpage.html?uid=${userId}`;
+                document.getElementById("movieLink").href = `movie.html?uid=${userId}`;
+                document.getElementById("tvshowLink").href = `tvshow.html?uid=${userId}`;
+                document.getElementById("watchlistLink").href = `watchlist.html?uid=${userId}`;
+                document.getElementById("footerHomeLink").href = `mainpage.html?uid=${userId}`;
+                document.getElementById("footerMovieLink").href = `movie.html?uid=${userId}`;
+                document.getElementById("footerTvshowLink").href = `tvshow.html?uid=${userId}`;
+                document.getElementById("footerWatchlistLink").href = `watchlist.html?uid=${userId}`;
+                const movieLinks = document.querySelectorAll('.moviecontainer a');
+                movieLinks.forEach(link => {
+                    const currentHref = link.getAttribute('href');
+                    if (currentHref && !currentHref.includes('uid=')) {
+                        link.href = `${currentHref}?uid=${userId}`;
+                    }
+                });
+            }
+        });
+
+        function toggleDropdown() {
+            var dropdown = document.getElementById("dropdownMenu");
+            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+        }
+        document.addEventListener("click", function(event) {
+            var profileContainer = document.querySelector(".profile-container");
+            if (!profileContainer.contains(event.target)) {
+                document.getElementById("dropdownMenu").style.display = "none";
+            }
+        });
+        function filterGenre(genre) {
+            var movies = document.querySelectorAll('.moviecontainer a');
+            movies.forEach(movie => {
+                if (genre === 'all' || movie.classList.contains(genre)) {
+                    movie.style.display = "block";
+                } 
+                else {
+                    movie.style.display = "none";
+                }
+            });
+        }
+        function createParticles() {
+            const container = document.getElementById("backgroundAnimation");
+            for (let i = 0; i < 50; i++) {
+                let particle = document.createElement("div");
+                particle.classList.add("particle");
+
+                let size = Math.random() * 5 + 5;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.top = Math.random() * 100 + 'vh';
+                particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+
+                container.appendChild(particle);
+            }
+        }
+
+        // Run the function to create the sparkle effect
+        createParticles();
+    </script>
+</body>
+</html>
